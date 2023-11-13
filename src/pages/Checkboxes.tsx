@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import classes from './Checkboxes.module.css';
 import { Button } from '@mantine/core';
-import { Checkbox } from '@mantine/core';
 
 
 type DataType = {
@@ -85,8 +84,8 @@ const handleRightClick = () => {
                     alignContent: "right",
                     textAlign: "right",
                 }} key={columnIndex}>
-                  <Checkbox
-
+                  <input
+                    type="checkbox"
                     checked={checkbox}
                     
                     onChange={() => handleCheckboxChange(rowIndex, columnIndex)}
@@ -111,8 +110,8 @@ const handleRightClick = () => {
                     alignContent: "right",
                     textAlign: "right",
                 }} key={columnIndex}>
-                    <Checkbox
-                    
+                    <input
+                    type="checkbox"
                     checked={data.every(row => row.checkboxes[columnIndex])}
                     onChange={e => handleMasterCheckboxChange(columnIndex, e.target.checked)}
                     />
