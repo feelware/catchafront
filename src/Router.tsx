@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from './pages/Home';
-import { CalendarPage } from './pages/Calendar';
-import { Checkboxes } from './pages/Checkboxes';
+import { CalendarPage } from './pages/CalendarPage';
+import { GroupsSelectorPage } from './pages/GroupsSelectorPage';
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,8 @@ const router = createBrowserRouter([
     element: <CalendarPage />,
   },
   {
-    path: '/checkboxes',
-    element: <Checkboxes />,
+    path: '/grupos',
+    element: <GroupsSelectorPage />,
   },
   {
     path: '*',

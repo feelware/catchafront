@@ -1,0 +1,61 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+$table_border_color: #e0e0e0;
+
+.table {
+    min-width: 600px;
+    table-layout: auto;
+    border-collapse: collapse;
+    position: relative;
+    display: block;
+    border: 1px solid $table_border_color;
+    max-height: 100%;
+    overflow: auto;
+    height: 80%;
+
+    thead {
+        position: sticky;
+        width: 100%;
+        background-color: white;
+        outline: 1px solid $table_border_color;
+        top: 0;
+        z-index: 1000;
+    }
+
+    // this is a thin, modern scrollbar
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #c5c5c5;
+    }
+
+    th,
+    td {
+        border-bottom: 1px solid $table_border_color;
+        padding: 4px 18px;
+    }
+
+    .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    input[type="checkbox"] {
+        scale: 1.5;
+
+        &:focus {
+            outline: 0.5px solid black;
+        }
+    }
+}
