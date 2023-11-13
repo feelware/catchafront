@@ -17,11 +17,17 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.9",
+    "@fullcalendar/daygrid": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/react": "^6.1.9",
+    "@fullcalendar/timegrid": "^6.1.9",
     "@mantine/core": "7.2.1",
     "@mantine/hooks": "7.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0"
+    "react-router-dom": "^6.18.0",
+    "vite-plugin-svgr": "^4.1.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.5.2",
