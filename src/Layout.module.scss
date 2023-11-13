@@ -1,0 +1,46 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - var(--header-height));
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: rgb(194, 194, 194);
+  display: flex;
+  z-index: 69;
+  flex-direction: column;
+
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    font-style: none;
+    text-decoration: none;
+    color: unset;
+    border-bottom: 1px solid black;
+
+    &:visited {
+      color: inherit;
+    }
+  }
+}
+
+// hide sidebar when viewport width is less than 768px
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+}
+
+
+.header {
+  height: var(--header-height);
+}

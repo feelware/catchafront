@@ -1,9 +1,11 @@
 import styles from './GroupsSelector.module.scss';
 import { useState, useEffect } from 'react';
-import { Button, Loader } from '@mantine/core';
+import { Button, Loader, Modal } from '@mantine/core';
 import { removeLastWord, repeat } from '../../utils';
 import CourseDisplayItem from './CourseDisplayItem';
 import { useGroupSelections } from '../../stores/groupsSelection';
+import { useDisclosure } from '@mantine/hooks';
+import { ToastContainer, toast } from 'react-toastify';
 
 // This type comes from the API, but it's not complete.
 // I just added the fields I needed (see the console.log(data))
@@ -21,16 +23,12 @@ type CourseAPIResponse = {
 function GroupsSelector() {
   const [coursesData, setCoursesData] = useState<CourseAPIResponse[]>([]);
   const { nGroups, selections, toggleSelection, toggleEntireColumn, addNewGroup } = useGroupSelections();
-
-  console.log({nGroups, selections})
-
-  // const headers = ['Semestre 1', 'Semestre 2', 'Semestre 3'];
-  // const [currentHeaderIndex, setCurrentHeaderIndex] = useState(0);
+  const [opened, { open, close }] = useDisclosure(false);
 
   // Gather courses data from API.
   // The API doesn't return any 'checkbox states', so we add it.
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/cursos/epis/2023-II`)
+    fetch(`${import.meta.env.VITE_API_URL}/cursos/epis`)
       .then(response => response.json())
       .then((data: CourseAPIResponse[]) => {
         console.log(data);
@@ -49,61 +47,71 @@ function GroupsSelector() {
       });
   }, []);
 
+  const handleConfirmSelections = () => {
+    // fetch(`http://localhost:8000/cursos/${escuela}`, {
+    //   method: 'POST'
+    // })
+
+    // toast.promise(resolveAfter3Sec, {
+    //   error: 'Ha ocurrido un error en la petición. Contacte un administrador.',
+    //   pending: 'Creando secciones...',
+    //   success: 'Confirmado con éxito'
+    // });
+  }
 
   return (
     <main className={styles.main}>
-      <h1>Añade las secciones</h1>
-      <Button onClick={addNewGroup}>Añadir sección</Button>
-      <table className={styles.table}>
-        <thead>
-          <tr style={{textAlign: "left"}}>
-            <th >Curso</th>
-            {
-              repeat(nGroups, (i) => (
-                <th style={{textAlign: "right"}} key={i} >
-                  {` G${i + 1}`}
-                </th>
-              ))
-            }
-          </tr>
-        </thead>
-        {
-          coursesData.length > 0 ? <>
-            <tbody>
-            {coursesData.map((course, rowIndex) => (
-              <tr key={rowIndex}>
-                <CourseDisplayItem
-                  courseName={removeLastWord(course.cur_vcNombre)}
-                  courseCode={course.cur_vcCodigo}
-                  studyPlan={course.plan_estudios.plaest_vcCodigo}
-                  cursoTipo={course.curso_tipo.curtip_vcNombre}
-                />
-                {
-                  selections[course.cur_vcCodigo].map((checked, i) => (
-                    <td style={{
-                        justifyContent: "right",
-                        alignContent: "right",
-                        textAlign: "right",
-                    }} key={i}>
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        onChange={() => toggleSelection(
-                          course.cur_vcCodigo,
-                          i
-                        )}
-                      />
-                    </td>
-                  ))
-                }
-              </tr>
-            ))}
-            </tbody>
-            <tfoot>
+      <ToastContainer />
+      <Modal opened={opened} onClose={close} title={'Confirmar?'}>
+        <Button onClick={handleConfirmSelections}>
+          Confimar?
+        </Button>
+      </Modal>
+      <section className={styles.tableWrapper}>
+        <Button className={styles.addGroupBtn} onClick={addNewGroup}>
+          Añadir sección
+        </Button>
+        <table className={styles.table}>
+          <thead>
+            <tr style={{textAlign: "left"}}>
+              <th >Curso</th>
+              {
+                repeat(nGroups, (i) => (
+                  <th style={{textAlign: "right"}} key={i} >
+                    {` G${i + 1}`}
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          {
+            coursesData.length > 0 ? <>
+              <tbody>
+              {coursesData.map((course, rowIndex) => (
+                <tr key={rowIndex}>
+                  <CourseDisplayItem
+                    courseName={removeLastWord(course.cur_vcNombre)}
+                    courseCode={course.cur_vcCodigo}
+                    studyPlan={course.plan_estudios.plaest_vcCodigo}
+                    cursoTipo={course.curso_tipo.curtip_vcNombre}
+                  />
+                  {
+                    selections[course.cur_vcCodigo].map((checked, i) => (
+                      <td key={i}>
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => toggleSelection(course.cur_vcCodigo,i)}
+                        />
+                      </td>
+                    ))
+                  }
+                </tr>
+              ))}
+              </tbody>
+              <tfoot>
                 <tr>
-                    <td>
-                        Seleccionar todo
-                    </td>
+                    <td>Seleccionar todo</td>
                     {repeat(nGroups, (columnIndex) => (
                       <td key={columnIndex}>
                         <input
@@ -120,10 +128,17 @@ function GroupsSelector() {
                       </td>
                     ))}
                 </tr>
-            </tfoot>
-          </> : <Loader className={styles.loader} color="blue" size="lg" />
-        }
-      </table>
+              </tfoot>
+            </> : <Loader className={styles.loader} color="blue" size="lg" />
+          }
+        </table>
+        <Button
+          className={styles.confirmButton}
+          onClick={open}
+        >
+          Confirmar
+        </Button>
+      </section>
     </main>
   );
 }
