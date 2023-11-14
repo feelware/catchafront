@@ -1,8 +1,40 @@
 .cell {
-  outline: 1px solid black;
+  min-height: 50px;
+}
+
+.block {
+  border-top: 1px solid var(--mantine-color-gray-2);
   user-select: none;
+  width: 10vw;
+  min-width: 120px;
 
   &.hovered {
-    outline: 1px solid red;
+    background-color: var(--mantine-color-gray-2);
+  }
+}
+
+.time {
+  font-size: 0.7rem;
+  color: var(--mantine-color-gray-5);
+  text-align: right;
+  padding: 0 15px;
+  top: -0.5rem;
+  position: relative
+}
+
+.day {
+  font-size: 0.75rem;
+  color: var(--mantine-color-gray-5);
+  text-align: center;
+  padding: 15px 0;
+}
+
+.column {
+  border-right: 1px solid var(--mantine-color-gray-2);
+  &:first-child {
+    border-right: none;
+  }
+  &:last-child {
+    border-right: none;
   }
 }

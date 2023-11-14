@@ -3,6 +3,9 @@
   flex-direction: row;
 }
 
-.calendarColumn {
-  min-width: 200px;
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }

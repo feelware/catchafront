@@ -5,7 +5,7 @@ import classes from './Welcome.module.css';
 export function Welcome() {
   return (
     <>
-      <Calendar
+      {/* <Calendar
         static
         renderDay={(date) => {
           const day = date.getDate();
@@ -15,7 +15,7 @@ export function Welcome() {
             </Indicator>
           );
         }}
-      />
+      /> */}
     </>
   );
 }

@@ -1,20 +1,23 @@
-import styles from "./FisiCalendar.module.scss";
-import CalendarColumn from "./CalendarColumn";
+import CalendarColumn from './CalendarColumn';
+import styles from './FisiCalendar.module.scss';
 
 function FisiCalendar() {
-  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const days = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO'];
 
   return (
-    <article className={styles.calendar}>
-      {
-        days.map(day => (
-          <CalendarColumn
-            key={day}
-            dayName={day}
-          />
-        ))
-      }
-    </article>
+    <main className={styles.main}>
+      <article className={styles.calendar}>
+        <CalendarColumn />
+        {
+          days.map(day => (
+            <CalendarColumn
+              key={day}
+              label={day}
+            />
+          ))
+        }
+      </article>
+    </main>
   );
 }
 

@@ -1,11 +1,8 @@
-const data = []
+const data = [];
 
 function SchedulesStack() {
-
   return (
-    <aside>
-
-    </aside>
+    <aside />
   );
 }
 

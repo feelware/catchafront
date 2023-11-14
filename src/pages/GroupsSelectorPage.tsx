@@ -1,6 +1,5 @@
-import GroupsSelector from "../components/GroupsSelection/GroupsSelector";
+import GroupsSelector from '../components/GroupsSelection/GroupsSelector';
 
 export function GroupsSelectorPage() {
-
   return <GroupsSelector />;
 }
