@@ -1,11 +1,11 @@
-import styles from './GroupsSelector.module.scss';
 import { useState, useEffect } from 'react';
 import { Button, Loader, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { ToastContainer, toast } from 'react-toastify';
+import styles from './GroupsSelector.module.scss';
 import { removeLastWord, repeat } from '../../utils';
 import CourseDisplayItem from './CourseDisplayItem';
 import { useGroupSelections } from '../../stores/groupsSelection';
-import { useDisclosure } from '@mantine/hooks';
-import { ToastContainer, toast } from 'react-toastify';
 
 // This type comes from the API, but it's not complete.
 // I just added the fields I needed (see the console.log(data))
@@ -16,7 +16,7 @@ type CourseAPIResponse = {
     plaest_vcCodigo: string,
   },
   curso_tipo: {
-    curtip_vcNombre: "ELECTIVO" | "OBLIGATORIO",
+    curtip_vcNombre: 'ELECTIVO' | 'OBLIGATORIO',
   },
 };
 
@@ -31,7 +31,6 @@ function GroupsSelector() {
     fetch(`${import.meta.env.VITE_API_URL}/cursos/epis`)
       .then(response => response.json())
       .then((data: CourseAPIResponse[]) => {
-        console.log(data);
         setCoursesData(data);
         if (Object.values(selections).length === 0) {
           useGroupSelections.setState({
@@ -47,22 +46,37 @@ function GroupsSelector() {
       });
   }, []);
 
-  const handleConfirmSelections = () => {
-    // fetch(`http://localhost:8000/cursos/${escuela}`, {
-    //   method: 'POST'
-    // })
+  async function handleConfirmSelections() {
+    const payload = coursesData.map(course => ({
+        curso_codigo: course.cur_vcCodigo,
+        grupos: selections[course.cur_vcCodigo],
+    }));
 
-    // toast.promise(resolveAfter3Sec, {
-    //   error: 'Ha ocurrido un error en la petición. Contacte un administrador.',
-    //   pending: 'Creando secciones...',
-    //   success: 'Confirmado con éxito'
-    // });
-  }
+    const data = {
+        plan: 'epis-2018',
+        payload,
+    };
+
+    const response = await fetch('http://localhost:8000/cursos/epis', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+}
 
   return (
     <main className={styles.main}>
       <ToastContainer />
-      <Modal opened={opened} onClose={close} title={'Confirmar?'}>
+      <Modal opened={opened} onClose={close} title="Confirmar?">
         <Button onClick={handleConfirmSelections}>
           Confimar?
         </Button>
@@ -73,11 +87,11 @@ function GroupsSelector() {
         </Button>
         <table className={styles.table}>
           <thead>
-            <tr style={{textAlign: "left"}}>
-              <th >Curso</th>
+            <tr style={{ textAlign: 'left' }}>
+              <th>Curso</th>
               {
                 repeat(nGroups, (i) => (
-                  <th style={{textAlign: "right"}} key={i} >
+                  <th style={{ textAlign: 'right' }} key={i}>
                     {` G${i + 1}`}
                   </th>
                 ))
@@ -101,7 +115,7 @@ function GroupsSelector() {
                         <input
                           type="checkbox"
                           checked={checked}
-                          onChange={() => toggleSelection(course.cur_vcCodigo,i)}
+                          onChange={() => toggleSelection(course.cur_vcCodigo, i)}
                         />
                       </td>
                     ))
@@ -129,7 +143,7 @@ function GroupsSelector() {
                     ))}
                 </tr>
               </tfoot>
-            </> : <Loader className={styles.loader} color="blue" size="lg" />
+                                     </> : <Loader className={styles.loader} color="blue" size="lg" />
           }
         </table>
         <Button

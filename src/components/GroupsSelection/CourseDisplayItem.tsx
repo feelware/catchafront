@@ -1,33 +1,33 @@
-import { Button, CopyButton } from "@mantine/core";
+import { CopyButton } from '@mantine/core';
 
 interface Props {
   courseName: string,
   courseCode: string,
   studyPlan: string, // plan de estudio
-  cursoTipo: "ELECTIVO" | "OBLIGATORIO",
+  cursoTipo: 'ELECTIVO' | 'OBLIGATORIO',
 }
 
 const generateTagStyle = (color: string) => ({
   backgroundColor: color,
-  borderRadius: "5px",
-  padding: "2px 6px",
-  marginRight: "6px",
-  fontSize: 14
+  borderRadius: '5px',
+  padding: '2px 6px',
+  marginRight: '6px',
+  fontSize: 14,
 });
 
 function CourseDisplayItem({ courseName, courseCode, studyPlan, cursoTipo }: Props) {
-
   return (
-    <td style={{ display: "flex", flexDirection: "column" }}>
+    <td style={{ display: 'flex', flexDirection: 'column' }}>
       <div>{courseName}</div>
       <div>
         <CopyButton value={courseCode}>
           {({ copied, copy }) => (
             <span
               style={generateTagStyle('#E6EAF4')}
-              onClick={copy}>
+              onClick={copy}
+            >
               {courseCode}
-              {copied && " (copiado)"}
+              {copied && ' (copiado)'}
             </span>
           )}
         </CopyButton>
