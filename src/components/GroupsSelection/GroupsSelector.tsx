@@ -76,7 +76,7 @@ function GroupsSelector() {
   return (
     <main className={styles.main}>
       <ToastContainer />
-      <Modal opened={opened} onClose={close} title="Confirmar?">
+      <Modal opened={opened} onClose={close} title="Confirmar?" centered>
         <Button onClick={handleConfirmSelections}>
           Confimar?
         </Button>
