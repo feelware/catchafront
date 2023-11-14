@@ -6,6 +6,7 @@ import {
   IconLogout,
   IconSwitchHorizontal,
   IconUser,
+  IconListDetails,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
 import { useLocation } from 'wouter';
@@ -29,7 +30,8 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const tabs = [
-  { icon: IconListCheck, label: 'Grupos', to: '/grupos' },
+  { icon: IconListCheck, label: 'Semestres', to: '/semestres' },
+  { icon: IconListDetails, label: 'Grupos', to: '/grupos' },
   { icon: IconCalendarEvent, label: 'Horarios', to: '/horarios' },
   { icon: IconUser, label: 'Cuenta', to: '/cuenta' },
 ];
