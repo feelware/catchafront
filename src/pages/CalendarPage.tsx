@@ -1,9 +1,9 @@
-import FisiCalendar from '../components/FisiCalendar/FisiCalendar';
+import Calendar from '../components/Horarios/Horarios';
 
 export function CalendarPage() {
   return (
     <main>
-      <FisiCalendar />
+      <Calendar />
     </main>
   );
 }

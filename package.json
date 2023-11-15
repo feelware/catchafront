@@ -13,6 +13,10 @@
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run jest && npm run build"
   },
   "dependencies": {
+    "@dnd-kit/modifiers": "^7.0.0",
+    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/react": "^6.1.9",
+    "@fullcalendar/timegrid": "^6.1.9",
     "@mantine/core": "7.2.2",
     "@mantine/dates": "^7.2.2",
     "@mantine/ds": "^7.2.2",
