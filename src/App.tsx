@@ -7,29 +7,30 @@ import { Route, Switch } from 'wouter';
 import { theme } from './theme';
 import Sidebar from './components/Sidebar/Sidebar';
 import styles from './Layout.module.scss';
-import Header from './components/Header/Header';
-import { HomePage } from './pages/Home';
 import { CalendarPage } from './pages/CalendarPage';
 import { GroupsSelectorPage } from './pages/GroupsSelectorPage';
 import SemestersPage from './pages/SemestersPage';
+import { useUser } from './stores/userStore';
+import Login from './pages/Login';
 
 export default function App() {
+  const { user } = useUser();
+
   return (
     <MantineProvider theme={theme}>
       <main className={styles.mainWrapper}>
-        {/* <Header /> */}
-        <div className={styles.mainContainer}>
+        {
+          user ?
+          <div className={styles.mainContainer}>
           <Sidebar />
-          <Switch>
-            <Route path="/" component={HomePage} />
-            {/* SUM-like view of the past semesters */}
-            <Route path="/semestres" component={SemestersPage} />
-            {/* Only active when  */}
-            <Route path="/horarios" component={CalendarPage} />
-            <Route path="/grupos" component={GroupsSelectorPage} />
-            <Route path="*" component={() => <div>Not found</div>} />
-          </Switch>
-        </div>
+            <Switch>
+              <Route path="/semestres" component={SemestersPage} />
+              <Route path="/horarios" component={CalendarPage} />
+              <Route path="/grupos" component={GroupsSelectorPage} />
+              <Route path="*" component={() => <div>Not found</div>} />
+            </Switch>
+          </div> : <Login />
+        }
       </main>
     </MantineProvider>
   );

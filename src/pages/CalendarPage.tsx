@@ -5,13 +5,15 @@ export function CalendarPage() {
   const { width } = useViewportSize();
 
   return (
-    <div
-      style={{
-        width,
-        display: 'flex',
-      }}
-    >
-      <Calendar />
-    </div>
+    <>
+      <div
+        style={{
+          width,
+          display: 'flex',
+        }}
+      >
+        <Calendar />
+      </div>
+    </>
   );
 }
