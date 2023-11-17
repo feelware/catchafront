@@ -33,13 +33,14 @@ function GroupsSelector() {
 
   async function handleConfirmSelections() {
     const payload = coursesData.map(course => ({
-        curso_codigo: course.cur_vcCodigo,
-        grupos: selections[course.cur_vcCodigo],
+      curso_id: course.cur_iCodigo,
+      curso_codigo: course.cur_vcCodigo,
+      grupos: selections[course.cur_vcCodigo],
     }));
 
     const data = {
         plan: 'epis-2018',
-        payload,
+        cursos: payload,
     };
 
     const response = await fetch(`http://localhost:8000/secciones/epis/${'2023-II'}`, {
