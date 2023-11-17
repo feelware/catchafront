@@ -4,8 +4,8 @@ interface CalendarActionState {
   isDragging: boolean;
 }
 
-const useCalendarAction = create<CalendarActionState>()((set) => ({
-  isDragging: false
+const useCalendarAction = create<CalendarActionState>()(() => ({
+  isDragging: false,
 }));
 
 // watch for drag and release

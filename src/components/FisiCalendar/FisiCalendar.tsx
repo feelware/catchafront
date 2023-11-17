@@ -1,3 +1,4 @@
+import FullCalendar from '@fullcalendar/react';
 import CalendarColumn from './CalendarColumn';
 import styles from './FisiCalendar.module.scss';
 
@@ -7,7 +8,8 @@ function FisiCalendar() {
   return (
     <main className={styles.main}>
       <article className={styles.calendar}>
-        <CalendarColumn />
+        <FullCalendar />
+        {/* <CalendarColumn />
         {
           days.map(day => (
             <CalendarColumn
@@ -15,7 +17,7 @@ function FisiCalendar() {
               label={day}
             />
           ))
-        }
+        } */}
       </article>
     </main>
   );

@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { Button, Group, Loader, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ToastContainer } from 'react-toastify';
-import styles from './GroupsSelector.module.scss';
 import { removeLastWord, repeat } from '../../utils';
-import CourseDisplayItem from './CourseDisplayItem';
 import { useGroupSelections } from '../../stores/groupsSelection';
 import { CourseAPIResponse } from './types';
+import CourseDisplayItem from './CourseDisplayItem';
+import styles from './GroupsSelector.module.scss';
 
 function GroupsSelector() {
   const [coursesData, setCoursesData] = useState<CourseAPIResponse[]>([]);

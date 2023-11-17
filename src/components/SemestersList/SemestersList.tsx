@@ -5,13 +5,9 @@ import { useEffect, useState } from 'react';
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { toast } from 'react-toastify';
-import styles from './SemestersList.module.scss';
+import { SemestreInformation } from './types';
 import SemseterItem from './SemesterItem';
-
-export interface SemestreInformation {
-  sem_vcCodigo: string;
-  sem_cEstado: 'I' | 'A' | 'P';
-}
+import styles from './SemestersList.module.scss';
 
 function SemestersList() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -29,7 +25,7 @@ function SemestersList() {
   />;
 
   const handleSemesterCreation = () => {
-    const request = fetch(`${import.meta.env.VITE_API_URL}/semestre`, {
+    const request = fetch(`${import.meta.env.VITE_API_URL}/semestres`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -47,7 +43,7 @@ function SemestersList() {
   };
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/semestre`)
+    fetch(`${import.meta.env.VITE_API_URL}/semestres`)
       .then(response => response.json())
       .then(setSemesters);
   }, []);
