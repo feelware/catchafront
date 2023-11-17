@@ -60,7 +60,7 @@ export default function Sidebar() {
   return (
     <nav className={classes.navbar}>
       <Center>
-        <img src={fisi} alt="FISI" style={{ width: rem(50), margin: 'auto' }} />
+        <img src={fisi} alt="FISI" style={{ width: '100%', margin: 'auto' }} />
       </Center>
 
       <div className={classes.navbarMain}>
