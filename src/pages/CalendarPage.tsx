@@ -1,5 +1,5 @@
 import { useViewportSize } from '@mantine/hooks';
-import { Calendar, EventStack } from '../components/Horarios/Horarios';
+import { Calendar } from '../components/Horarios/Horarios';
 
 export function CalendarPage() {
   const { width } = useViewportSize();
@@ -12,7 +12,6 @@ export function CalendarPage() {
       }}
     >
       <Calendar />
-      <EventStack />
     </div>
   );
 }

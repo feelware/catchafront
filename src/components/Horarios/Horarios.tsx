@@ -2,19 +2,21 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useViewportSize } from '@mantine/hooks';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import classes from './Horarios.module.scss';
+import { AssignedGroupsResponse } from './types';
+import { repeat } from '../../utils';
+import styles from './Horarios.module.scss';
 
 export function EventStack() {
   return (
-    <article id="external-events" className={classes.stack}>
+    <article id="external-events" className={styles.stack}>
       <h3>Cursos disponibles</h3>
-      <div className={classes.event}>Curso 1</div>
-      <div className={classes.event}>Curso 2</div>
-      <div className={classes.event}>Curso 3</div>
-      <div className={classes.event}>Curso 4</div>
-      <div className={classes.event}>Curso 5</div>
+      <div className={styles.event}>Curso 1</div>
+      <div className={styles.event}>Curso 2</div>
+      <div className={styles.event}>Curso 3</div>
+      <div className={styles.event}>Curso 4</div>
+      <div className={styles.event}>Curso 5</div>
     </article>
   );
 }
@@ -22,12 +24,22 @@ export function EventStack() {
 export function Calendar() {
   const { height } = useViewportSize();
   const firstRender = useRef(true);
+  const [nGroups, setNGroups] = useState(0);
+  const [currentGroup, setCurrentGroup] = useState<number>(1);
+  const [assignedGroups, setAssignedGroups] = useState<AssignedGroupsResponse[]>([]);
   const event = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!event.current) return;
     if (!firstRender.current) return;
     firstRender.current = false;
+
+    fetch(`${import.meta.env.VITE_API_URL}/secciones/epis/${'2023-II'}`)
+      .then(response => response.json())
+      .then((groups: AssignedGroupsResponse[]) => {
+        setNGroups(Object.keys(groups).length);
+        setAssignedGroups(groups);
+      });
 
     // console.log(window.getElementById('eventito'));
     new Draggable(event.current, {
@@ -41,8 +53,25 @@ export function Calendar() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log({ assignedGroups });
+    console.log(assignedGroups[currentGroup]);
+  }, [assignedGroups]);
+
   return (
-    <div className={classes.calendar}>
+    <div className={styles.calendar}>
+      <nav>
+        {
+          repeat(nGroups, (g) => (
+            <li
+              className={styles.navGroupItem}
+              key={g}
+              onClick={() => setCurrentGroup(g + 1)}
+            >{g + 1}
+            </li>
+          ))
+        }
+      </nav>
       <div ref={event} className="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event">
           <div className="fc-event-main">My Event 1</div>
       </div>
@@ -63,6 +92,7 @@ export function Calendar() {
         slotDuration="1:00:00"
         height={height - 40}
       />
+      <EventStack />
     </div>
   );
 }
