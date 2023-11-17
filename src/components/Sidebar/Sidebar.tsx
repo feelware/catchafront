@@ -6,6 +6,7 @@ import {
   IconLogout,
   IconUser,
   IconListDetails,
+  IconBuilding,
 } from '@tabler/icons-react';
 import { useLocation } from 'wouter';
 import classes from './Sidebar.module.css';
@@ -34,6 +35,7 @@ const tabs = [
   { icon: IconListDetails, label: 'grupos', to: '/grupos' },
   { icon: IconCalendarEvent, label: 'horarios', to: '/horarios' },
   { icon: IconUser, label: 'cuenta', to: '/cuenta' },
+  { icon: IconBuilding, label: 'aulas', to: '/aulas' },
 ];
 
 export default function Sidebar() {

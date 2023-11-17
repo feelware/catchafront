@@ -67,17 +67,20 @@ nav {
 .calendar {
   width: 100%;
   min-width: 500px;
-  padding: 20px;
+  padding: 20px 40px;
 }
 
-.stack {
-  width: 25%;
-  min-width: 150px;
-  margin: 20px;
-  padding: 20px;
+.stackContainer {
+  padding: 10px;
   border: 1px solid var(--mantine-color-gray-4);
-}
 
+  div div {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    height: 25px;
+  }
+}
 
 .event {
   margin: 1em 0;

@@ -34,9 +34,8 @@ $table_border_color: #e0e0e0;
     height: 80%;
 
     thead {
-        display: table;
         position: sticky;
-        width: 100%;
+        min-width: 100%;
         background-color: white;
         outline: 1px solid $table_border_color;
         top: 0;

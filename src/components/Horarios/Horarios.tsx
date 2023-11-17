@@ -1,26 +1,14 @@
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useViewportSize } from '@mantine/hooks';
+import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { useEffect, useRef, useState } from 'react';
-
 import uniqolor from 'uniqolor';
+import { Button, Group, Loader, Modal, Text } from '@mantine/core';
+import { ToastContainer } from 'react-toastify';
 import { AssignedGroupsResponse } from './types';
 import { repeat } from '../../utils';
 import styles from './Horarios.module.scss';
-
-export function EventStack() {
-  return (
-    <article id="external-events" className={styles.stack}>
-      <h3>Cursos disponibles</h3>
-      <div className={styles.event}>Curso 1</div>
-      <div className={styles.event}>Curso 2</div>
-      <div className={styles.event}>Curso 3</div>
-      <div className={styles.event}>Curso 4</div>
-      <div className={styles.event}>Curso 5</div>
-    </article>
-  );
-}
 
 export function Calendar() {
   const { height } = useViewportSize();
@@ -29,6 +17,7 @@ export function Calendar() {
   const [nGroups, setNGroups] = useState(0);
   const [currentGroup, setCurrentGroup] = useState<number>(1);
   const [assignedGroups, setAssignedGroups] = useState<AssignedGroupsResponse>({});
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     console.log('fetching...');
@@ -42,7 +31,6 @@ export function Calendar() {
   }, []);
 
   useEffect(() => {
-    console.log(nGroups, stackContainer.current, firstRender.current);
     if (nGroups === 0) return;
     if (!stackContainer.current) return;
     if (!firstRender.current) return;
@@ -62,8 +50,29 @@ export function Calendar() {
     });
   }, [assignedGroups, currentGroup]);
 
+  const handleConfirmSelections = () => {
+    close();
+  };
+
   return (
     <div className={styles.calendar}>
+      <ToastContainer />
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Confirmar la creción de los horarios"
+        centered
+      >
+        <Group>
+          <Text>
+            Está apunto de asignar los horarios
+          </Text>
+        </Group>
+        <Group mt="md">
+          <Button onClick={handleConfirmSelections}>Confimar</Button>
+        </Group>
+      </Modal>
+      <h2>Selección de horarios</h2>
       <nav>
         {
           repeat(nGroups, (g) => (
@@ -77,45 +86,74 @@ export function Calendar() {
           ))
         }
       </nav>
-      <section ref={stackContainer}>
-        {
-          assignedGroups[currentGroup] &&
-          assignedGroups[currentGroup].map(({ curso }, i) => (
-            <div
-              key={i}
-              data-course-code={curso.cur_vcCodigo}
-              className="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
-              style={{ backgroundColor: uniqolor(curso.cur_vcNombre, {
+
+      { nGroups > 0 ?
+          <section style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 400px',
+          gap: '10px',
+        }}
+          >
+          <FullCalendar
+            plugins={[timeGridPlugin, interactionPlugin]}
+            initialView="timeGridWeek"
+            headerToolbar={false}
+            allDaySlot={false}
+            slotEventOverlap={false}
+            expandRows
+            droppable
+            editable
+            drop={info => {
+              const course = info.draggedEl.dataset.courseCode!;
+              const assignedCourse = assignedGroups[currentGroup]
+                .find(c => c.curso.cur_vcCodigo === course);
+              console.log(assignedCourse);
+              // eslint-disable-next-line no-param-reassign
+              info.draggedEl.style.backgroundColor = uniqolor(assignedCourse!.curso.cur_vcNombre, {
                 saturation: 45,
                 lightness: [60, 70],
-              }).color }}
-            >
-                <div className="fc-event-main">
-                  {curso.cur_vcNombre}
+              }).color;
+              info.draggedEl.remove();
+              console.log(info.draggedEl);
+            }}
+            eventOverlap={() => false}
+            eventDurationEditable={false}
+            dayHeaderFormat={{ weekday: 'short' }}
+            slotMinTime="08:00:00"
+            slotMaxTime="22:00:00"
+            events={[]}
+            slotDuration="0:30:00"
+            height={height - 300}
+          />
+          <section ref={stackContainer} className={styles.stackContainer}>
+            {
+              assignedGroups[currentGroup] &&
+              assignedGroups[currentGroup].map(({ curso }, i) => (
+                <div
+                  key={i}
+                  data-course-code={curso.cur_vcCodigo}
+                  className="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
+                  style={{ backgroundColor: uniqolor(curso.cur_vcNombre, {
+                    saturation: 45,
+                    lightness: [60, 70],
+                  }).color }}
+                >
+                    <div className="fc-event-main">
+                      {curso.cur_vcNombre}
+                    </div>
                 </div>
-            </div>
-          ))
-        }
-      </section>
-      <FullCalendar
-        plugins={[timeGridPlugin, interactionPlugin]}
-        initialView="timeGridWeek"
-        headerToolbar={false}
-        allDaySlot={false}
-        slotEventOverlap={false}
-        expandRows
-        droppable
-        editable
-        drop={info => console.log(info)}
-        eventOverlap={() => false}
-        eventDurationEditable={false}
-        dayHeaderFormat={{ weekday: 'short' }}
-        slotMinTime="08:00:00"
-        slotMaxTime="22:00:00"
-        slotDuration="0:30:00"
-        height={height - 40}
-      />
-      <EventStack />
+              ))
+            }
+          </section>
+          </section> : <Loader />}
+      <Button
+        style={{
+          marginTop: '1rem',
+        }}
+        onClick={open}
+      >
+        Confirmar horarios
+      </Button>
     </div>
   );
 }

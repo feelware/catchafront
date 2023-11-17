@@ -56,8 +56,9 @@ function GroupsSelector() {
     }
 
     const result = await response.json();
+    close();
     return result;
-}
+  }
 
   return (
     <main className={styles.main}>
@@ -65,11 +66,13 @@ function GroupsSelector() {
       <Modal
         opened={opened}
         onClose={close}
-        title="Confirmar la creción de los grupos"
+        title="Confirmar la creación de los grupos"
         centered
       >
         <Group>
-          <Text>Está apunto de crear las secciones para el semestre</Text>
+          <Text>
+            Está apunto de crear las secciones para el semestre
+          </Text>
         </Group>
         <Group mt="md">
           <Button onClick={handleConfirmSelections}>Confimar</Button>
