@@ -1,11 +1,11 @@
 import { Indicator } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
-import classes from './Welcome.module.css';
+// import classes from './Welcome.module.css';
 
-export function Welcome() {
+function Welcome() {
   return (
     <>
-      {/* <Calendar
+      <Calendar
         static
         renderDay={(date) => {
           const day = date.getDate();
@@ -15,7 +15,9 @@ export function Welcome() {
             </Indicator>
           );
         }}
-      /> */}
+      />
     </>
   );
 }
+
+export default Welcome;

@@ -4,6 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import { toast } from 'react-toastify';
 import styles from './SemestersList.module.scss';
 import SemseterItem from './SemesterItem';
 
@@ -28,7 +29,7 @@ function SemestersList() {
   />;
 
   const handleSemesterCreation = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/semestre`, {
+    const request = fetch(`${import.meta.env.VITE_API_URL}/semestre`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -38,7 +39,11 @@ function SemestersList() {
       }),
     })
       .then(response => response.json())
-      .then(console.log);
+      .then((data) => data);
+
+    toast.promise(request, {
+
+    });
   };
 
   useEffect(() => {
@@ -53,7 +58,7 @@ function SemestersList() {
         <h1>Todos los semestres</h1>
         <Input
           className={styles.semestersSearch}
-          placeholder="Nombre del semestre"
+          placeholder="Buscar semestre"
           leftSection={searchIcon}
         />
       </header>
@@ -87,7 +92,7 @@ function SemestersList() {
             {...semesterForms.getInputProps('timeRange')}
           />
           <Button
-            size="compact-md"
+            size="compact-sm"
             disabled={semesterForms.values.semesterName === '' || semesterForms.values.timeRange.length === 0}
             onClick={handleSemesterCreation}
           >
@@ -107,7 +112,9 @@ function SemestersList() {
           {
             semesters === null
               ? <Loader />
-              : semesters.map(semester => <SemseterItem semester={semester} />)
+              : semesters.map(semester => (
+                <SemseterItem key={semester.sem_vcCodigo} semester={semester} />
+              ))
           }
         </section>
       </section>

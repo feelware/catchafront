@@ -1,28 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Button, Loader, Modal } from '@mantine/core';
+import { Button, Group, Loader, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import styles from './GroupsSelector.module.scss';
 import { removeLastWord, repeat } from '../../utils';
 import CourseDisplayItem from './CourseDisplayItem';
 import { useGroupSelections } from '../../stores/groupsSelection';
-
-// This type comes from the API, but it's not complete.
-// I just added the fields I needed (see the console.log(data))
-type CourseAPIResponse = {
-  cur_vcNombre: string,
-  cur_vcCodigo: string,
-  plan_estudios: {
-    plaest_vcCodigo: string,
-  },
-  curso_tipo: {
-    curtip_vcNombre: 'ELECTIVO' | 'OBLIGATORIO',
-  },
-};
+import { CourseAPIResponse } from './types';
 
 function GroupsSelector() {
   const [coursesData, setCoursesData] = useState<CourseAPIResponse[]>([]);
-  const { nGroups, selections, toggleSelection, toggleEntireColumn, addNewGroup } = useGroupSelections();
+  const {
+    nGroups,
+    selections,
+    toggleSelection,
+    toggleEntireColumn,
+    updateWithFetchedCourses,
+    addNewGroup,
+  } = useGroupSelections();
   const [opened, { open, close }] = useDisclosure(false);
 
   // Gather courses data from API.
@@ -32,17 +27,7 @@ function GroupsSelector() {
       .then(response => response.json())
       .then((data: CourseAPIResponse[]) => {
         setCoursesData(data);
-        if (Object.values(selections).length === 0) {
-          useGroupSelections.setState({
-            nGroups: 1,
-            selections: {
-              ...data.reduce((acc, course) => ({
-                ...acc,
-                [course.cur_vcCodigo]: [false],
-              }), {}),
-            },
-          });
-        }
+        updateWithFetchedCourses(data);
       });
   }, []);
 
@@ -57,12 +42,12 @@ function GroupsSelector() {
         payload,
     };
 
-    const response = await fetch('http://localhost:8000/cursos/epis', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+    const response = await fetch(`http://localhost:8000/secciones/epis/${'2023-II'}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
@@ -76,13 +61,25 @@ function GroupsSelector() {
   return (
     <main className={styles.main}>
       <ToastContainer />
-      <Modal opened={opened} onClose={close} title="Confirmar?" centered>
-        <Button onClick={handleConfirmSelections}>
-          Confimar?
-        </Button>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Confirmar la creción de los grupos"
+        centered
+      >
+        <Group>
+          <Text>Está apunto de crear las secciones para el semestre</Text>
+        </Group>
+        <Group mt="md">
+          <Button onClick={handleConfirmSelections}>Confimar</Button>
+        </Group>
       </Modal>
       <section className={styles.tableWrapper}>
-        <Button className={styles.addGroupBtn} onClick={addNewGroup}>
+        <Button
+          className={styles.addGroupBtn}
+          onClick={addNewGroup}
+          size="compact-sm"
+        >
           Añadir sección
         </Button>
         <table className={styles.table}>
@@ -99,7 +96,8 @@ function GroupsSelector() {
             </tr>
           </thead>
           {
-            coursesData.length > 0 ? <>
+            coursesData.length > 0 ?
+            <>
               <tbody>
               {coursesData.map((course, rowIndex) => (
                 <tr key={rowIndex}>
@@ -143,7 +141,8 @@ function GroupsSelector() {
                     ))}
                 </tr>
               </tfoot>
-                                     </> : <Loader className={styles.loader} color="blue" size="lg" />
+            </> :
+            <Loader className={styles.loader} color="blue" size="lg" />
           }
         </table>
         <Button
