@@ -2,8 +2,10 @@ import { Button, Stepper, Text } from '@mantine/core';
 import { Link } from 'wouter';
 import styles from './SemestersList.module.scss';
 import { SemestreInformation } from './types';
+import { useUser } from '../../stores/userStore';
 
 function SemseterItem({ semester }: { semester: SemestreInformation }) {
+  const { user } = useUser();
   let state = 0;
   if (semester.groups_count > 0) state += 1;
 
@@ -39,7 +41,9 @@ function SemseterItem({ semester }: { semester: SemestreInformation }) {
                   planes de estudio disponibles
                 </Text>
                 <Link href="/grupos">
-                  <Button size="compact-sm">Empezar</Button>
+                  <Button size="compact-sm" disabled={!user?.roles.some(role => role === 'grupos')}>
+                    Empezar
+                  </Button>
                 </Link>
               </Stepper.Step>
               <Stepper.Step label="Asignación de horarios" description="Verify email">
@@ -49,11 +53,20 @@ function SemseterItem({ semester }: { semester: SemestreInformation }) {
                   planes de estudio disponibles
                 </Text>
                 <Link href="/horarios">
-                  <Button size="compact-sm">Empezar</Button>
+                  <Button size="compact-sm" disabled={!user?.roles.some(role => role === 'horarios')}>
+                    Empezar
+                  </Button>
                 </Link>
               </Stepper.Step>
               <Stepper.Step label="Asignación de aulas" description="Get full access">
-                Step 3 content: Get full access
+                <Text>Paso 3: Asignación de aulas.</Text>
+                <Text mb="sm">
+                  La asignación de aulas se realiza por escuela, con los
+                  planes de estudio disponibles
+                </Text>
+                <Button size="compact-sm" disabled={!user?.roles.some(role => role === 'aulas')}>
+                  Empezar
+                </Button>
               </Stepper.Step>
               <Stepper.Completed>
                 Completed, click back button to get to previous step

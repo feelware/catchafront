@@ -29,7 +29,7 @@ const users = [
   {
     id: 4,
     name: 'Jose Alfredo Herrera Quispe',
-    email: 'jose.alfredo@unmsm.edu.pe',
+    email: 'jose.herrera@unmsm.edu.pe',
     password: '1ec4ed037766aa181d8840ad04b9fc6e195fd37dedc04c98a5767a67d3758ece',
     roles: ['horarios', 'grupos', 'aulas', 'admin'],
   },
