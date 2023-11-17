@@ -42,7 +42,9 @@ export default function Sidebar() {
   const { user } = useUser();
 
   const links = tabs
-  .filter(tab => tab.label === 'semestres' || user.roles.includes(tab.label))
+  .filter((tab) => (
+    tab.label === 'semestres' || user!.roles.includes(tab.label as any)
+  ))
   .map((link, index) => (
     <NavbarLink
       {...link}

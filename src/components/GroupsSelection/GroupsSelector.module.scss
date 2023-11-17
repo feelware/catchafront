@@ -34,6 +34,7 @@ $table_border_color: #e0e0e0;
     height: 80%;
 
     thead {
+        display: table;
         position: sticky;
         width: 100%;
         background-color: white;
@@ -41,7 +42,6 @@ $table_border_color: #e0e0e0;
         top: 0;
         z-index: 1;
     }
-
     // this is a thin, modern scrollbar
     &::-webkit-scrollbar {
         width: 5px;
