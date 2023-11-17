@@ -1,7 +1,9 @@
 // Response from '/secciones/:escuela/:semestre'
 export interface AssignedGroupsResponse {
-  gru_iNumero: number;
-  curso: Curso;
+  [key: string]: Array<{
+    gru_iNumero: number;
+    curso: Curso;
+  }>;
 }
 
 export interface Curso {

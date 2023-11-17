@@ -2,7 +2,7 @@ import { Button, Fieldset, PasswordInput, TextInput, Title } from '@mantine/core
 import { sha256 } from 'js-sha256';
 import { useState } from 'react';
 import fisi from '../../public/fisi.png';
-import { useUser } from '../stores/userStore';
+import { LoggedUserInformation, useUser } from '../stores/userStore';
 
 const users = [
   {
@@ -33,11 +33,11 @@ const users = [
     password: '1ec4ed037766aa181d8840ad04b9fc6e195fd37dedc04c98a5767a67d3758ece',
     roles: ['horarios', 'grupos', 'aulas', 'admin'],
   },
-];
+] satisfies LoggedUserInformation[];
 
 const login = (email: string, password: string) => {
   const hashedPassword = sha256(password);
-  const user = users.find((user) => user.email === email && user.password === hashedPassword);
+  const user = users.find((u) => u.email === email && u.password === hashedPassword);
   useUser.setState({ user });
 };
 

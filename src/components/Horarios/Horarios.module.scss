@@ -16,13 +16,25 @@
 nav {
   display: flex;
   width: 100%;
+  justify-content: space-around;
+  gap: 3px;
 
   .navGroupItem {
+    display: grid;
+    place-content: center;
+    height: 1.6rem;
+    border-radius: 8px 5px 0 0;
+    width: 100%;
     list-style: none;
+    font-size: 0.8rem;
     cursor: pointer !important;
     pointer-events: all !important;
     background-color: var(--mantine-color-gray-2);
     margin: 18px 0;
+
+    &[data-active='true'] {
+      background-color: var(--mantine-color-blue-3);
+    }
   }
 }
 
