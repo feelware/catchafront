@@ -1,11 +1,25 @@
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useViewportSize } from '@mantine/hooks';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import { useEffect, useState } from 'react';
 
 import classes from './Horarios.module.scss';
 
-export default function Calendar() {
+export function EventStack() {
+  return (
+    <article id="external-events" className={classes.stack}>
+      <h3>Cursos disponibles</h3>
+      <div className={classes.event}>Curso 1</div>
+      <div className={classes.event}>Curso 2</div>
+      <div className={classes.event}>Curso 3</div>
+      <div className={classes.event}>Curso 4</div>
+      <div className={classes.event}>Curso 5</div>
+    </article>
+  );
+}
+
+export function Calendar() {
   const { height } = useViewportSize();
 
   return (
