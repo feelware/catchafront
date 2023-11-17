@@ -1,4 +1,4 @@
-import { Button, Input, Loader, Modal, rem } from '@mantine/core';
+import { Button, Input, Loader, Modal, Select, rem } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
@@ -57,6 +57,13 @@ function SemestersList() {
           placeholder="Buscar semestre"
           leftSection={searchIcon}
         />
+        <Select
+          label=""
+          placeholder=""
+          data={['Ingeniería de Sistemas (epis)', 'Ingeniería de Software (episw)']}
+          defaultValue="Ingeniería de Sistemas (epis)"
+          allowDeselect={false}
+        />
       </header>
       <section className={styles.semesterList}>
         <Modal
@@ -72,13 +79,6 @@ function SemestersList() {
               {...semesterForms.getInputProps('semesterName')}
             />
           </Input.Wrapper>
-          {/* <Select
-            label="Escuela profesional"
-            placeholder=""
-            data={['Ingeniería de Sistemas (epis)', 'Ingeniería de Software (episw)']}
-            defaultValue="React"
-            allowDeselect={false}
-          /> */}
           <DatePickerInput
             // clearable
             type="range"

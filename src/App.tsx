@@ -12,6 +12,7 @@ import { GroupsSelectorPage } from './pages/GroupsSelectorPage';
 import SemestersPage from './pages/SemestersPage';
 import { useUser } from './stores/userStore';
 import Login from './pages/Login';
+import Aulaspage from './pages/Aulaspage';
 
 export default function App() {
   const { user } = useUser();
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/semestres" component={SemestersPage} />
               <Route path="/horarios" component={CalendarPage} />
               <Route path="/grupos" component={GroupsSelectorPage} />
+              <Route path="/aulas" component={Aulaspage} />
               <Route path="*" component={() => <div>Not found</div>} />
             </Switch>
           </div> : <Login />

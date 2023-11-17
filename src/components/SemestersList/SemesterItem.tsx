@@ -8,6 +8,7 @@ function SemseterItem({ semester }: { semester: SemestreInformation }) {
   const { user } = useUser();
   let state = 0;
   if (semester.groups_count > 0) state += 1;
+  if (semester.schedules_count > 0) state += 1;
 
   return (
     <section
