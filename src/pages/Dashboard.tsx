@@ -5,7 +5,6 @@ import { useUser } from '../stores/userStore';
 import rawData from './rawData'
 import styles from './Dashboard.module.css';
 
-
 const groupedData = rawData.reduce((acc, item) => {
   const date = item.date.split('T')[0]; // get the date part
   if (!acc[date]) {
@@ -29,9 +28,7 @@ const data = Object.keys(groupedData).map((key) => ({
 }));
 
 const startDate = new Date('2023-05-05');
-
 const endDate = new Date('2023-11-20');
-
 const dates = [];
 
 for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
@@ -42,7 +39,7 @@ for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
   });
 }
 
-console.log(dates.concat(data));
+data = dates.concat(data);
 
 export default function Dashboard() {
   return (
@@ -51,7 +48,7 @@ export default function Dashboard() {
         theme={{
         dark: ['rgb(171, 210, 255)', 'rgb(14, 117, 235)'],
       }}
-        data={dates.concat(data)}
+        data={data}
         maxLevel={max}
       />
     </main>
