@@ -13,25 +13,16 @@
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run jest && npm run build"
   },
   "dependencies": {
-    "@dnd-kit/modifiers": "^7.0.0",
-    "@fullcalendar/core": "^6.1.9",
-    "@fullcalendar/daygrid": "^6.1.9",
-    "@fullcalendar/interaction": "^6.1.9",
-    "@fullcalendar/react": "^6.1.9",
-    "@fullcalendar/timegrid": "^6.1.9",
     "@mantine/core": "7.2.2",
     "@mantine/dates": "^7.2.2",
-    "@mantine/ds": "^7.2.2",
     "@mantine/form": "^7.2.2",
     "@mantine/hooks": "7.2.2",
     "@tabler/icons-react": "^2.40.0",
     "js-sha256": "^0.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-toastify": "^9.1.3",
     "uniqolor": "^1.1.0",
     "vite-plugin-svgr": "^4.1.0",
-    "wouter": "^2.12.1",
     "zustand": "^4.4.6"
   },
   "devDependencies": {

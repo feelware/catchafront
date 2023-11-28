@@ -26,13 +26,6 @@ const users = [
     password: 'c9fd92c735c7609969a0ab48b6dc2fda85a06e135196571c06708222baf5a2e7',
     roles: ['horarios', 'grupos'],
   },
-  {
-    id: 4,
-    name: 'Jose Alfredo Herrera Quispe',
-    email: 'jose.herrera@unmsm.edu.pe',
-    password: '1ec4ed037766aa181d8840ad04b9fc6e195fd37dedc04c98a5767a67d3758ece',
-    roles: ['horarios', 'grupos', 'aulas', 'admin'],
-  },
 ] satisfies LoggedUserInformation[];
 
 const login = (email: string, password: string) => {
