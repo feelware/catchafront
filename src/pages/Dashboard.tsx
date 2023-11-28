@@ -1,4 +1,4 @@
-
+import { useUser } from "../../stores/userStore"
 
 import styles from "./Dashboard.module.css"
 
