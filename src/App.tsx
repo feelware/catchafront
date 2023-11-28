@@ -11,12 +11,9 @@ export default function App() {
 
   return (
     <MantineProvider>
-      <main className={styles.mainWrapper}>
         {
-          user ?
-          <div className={styles.mainContainer} /> : <Login />
+          user ? <Dashboard /> : <Login />
         }
-      </main>
     </MantineProvider>
   );
 }
